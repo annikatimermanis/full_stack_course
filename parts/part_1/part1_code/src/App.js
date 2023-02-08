@@ -1,4 +1,5 @@
-// 1.1: course information, step1
+import { useState } from 'react'
+
 const App = () => {
   const course = {
     name: 'Half Stack application development',
@@ -18,12 +19,44 @@ const App = () => {
     ]
   }
 
+  const [ counter, setCounter ] = useState(0)
+  const increaseByOne = () => {setCounter(counter+1)}
+  const reset = () => {setCounter(0)}
+  const decreaseByOne = () => {setCounter(counter-1)}
+
   return (
     <div>
       <Header course={course.name}/>
       <Content part={course.parts} />
       <Total part={course.parts}/>
+      <Display text="Counter: " counter={counter}/>
+      <Button 
+        onClick={increaseByOne}
+        text='plus'
+      />
+      <Button
+        onClick={reset}
+        text='reset'
+      />
+      <Button
+        onClick={decreaseByOne}
+        text='minus'
+      />
     </div>
+  )
+}
+
+const Display = ({text,counter}) => {
+  return (
+    <div>{text} {counter}</div>
+  )
+}
+
+const Button = ({onClick, text}) => {
+  return (
+    <button onClick={onClick}>
+      {text}
+    </button>
   )
 }
 
@@ -43,7 +76,6 @@ const Content = (props) => {
   )
 }
 
-// 1.2: course information, step2
 const Part = (props)  => {
   return(
     <p>
