@@ -107,15 +107,6 @@ const App = () => {
         value5={average()}
         value6={positive()}
       />
-      {/* <Count text="good" count ={good} />
-      <Count text="neutral" count ={neutral} />
-      <Count text="bad" count = {bad} />
-      <StatisticLine text="good" value ={all()} />
-      <StatisticLine text="neutral" value ={average()} />
-      <StatisticLine text="bad" value ={positive()} />  */}
-      {/* <Statistic textgood="good" countgood={good} 
-                textneutral="neutral" countneutral={neutral} 
-                textbad="bad" countbad={bad}/> */}
     </div>
     )
   }
