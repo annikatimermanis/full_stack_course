@@ -14,7 +14,6 @@ const Button = (props) => {
   )
 }
 
-
 // const Count = (props) => {
 //   return(
 //     <>
@@ -67,6 +66,8 @@ function random(){
   )
 }
 
+
+
 const App = () => {
 
   const anecdotes = [
@@ -79,12 +80,34 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
+  // anecdote 
   const [selected, setSelected] = useState(0)
 
-  // save clicks of each button to its own state
-  const [good, setGood] = useState(0)
-  const [neutral, setNeutral] = useState(0)
-  const [bad, setBad] = useState(0)
+  const [points, setPoints] = useState(new Array(8).fill(0))
+  const copy = [...points]
+
+
+  const getMaxVotes = () => {
+    const maxVote = Math.max(...points)
+    if (maxVote === 0) return null
+    const maxList = [];
+    points.forEach((element, index) => {
+      if (element === maxVote) maxList.push(index)
+    })
+    return maxList.map((el, index) => (
+      <p key={index} > {anecdotes[el]} -- with {points[el]} vote </p>
+    ))
+  }
+
+  const incrementPoints = () => {
+    copy[selected] += 1
+    setPoints(copy)
+  }
+
+    // save clicks of each button to its own state
+    const [good, setGood] = useState(0)
+    const [neutral, setNeutral] = useState(0)
+    const [bad, setBad] = useState(0)
 
   const setGoodValue = (props) => {
     setGood(good + 1)
@@ -108,9 +131,23 @@ const App = () => {
   const average = () => (good - bad)/all()
   const positive = () => (good/all())*100
 
+  console.log("selected", selected)
+
   if(good !== 0 || neutral !== 0 || bad !== 0){
     return(
       <div>
+      <div>
+        <Header text="Anecdote of the day" />
+        {anecdotes[selected]} {points[selected]}
+        <br></br>
+        <Button text="next anecdote" handleClick={() => setSelected(random())} />
+        <Button text="vote" handleClick={incrementPoints} />
+      </div>
+      <div>
+        <Header text="Anecdote with most votes" />
+        {getMaxVotes()}
+        <br></br>
+      </div>
       <Header text="give feedback" />
       <Button text="good" handleClick={() => setGoodValue(good)} />
       <Button text="neutral" handleClick={() => setNeutralValue(neutral)} />
@@ -129,13 +166,19 @@ const App = () => {
     </div>
     )
   }
-  console.log("selected", selected)
   return (
     <div>
       <div>
-        {anecdotes[selected]}
+        <Header text="Anecdote of the day" />
+        {anecdotes[selected]} {points[selected]}
         <br></br>
         <Button text="next anecdote" handleClick={() => setSelected(random())} />
+        <Button text="vote" handleClick={incrementPoints} />
+      </div>
+      <div>
+        <Header text="Anecdote with most votes" />
+        {getMaxVotes()}
+        <br></br>
       </div>
       <Header text="give feedback" />
       <Button text="good" handleClick={() => setGood(good + 1)} />
